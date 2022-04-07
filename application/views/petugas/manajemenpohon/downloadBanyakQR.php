@@ -63,23 +63,26 @@
     }
 
     function multiplePrint() {
-        let qrcode = document.getElementsByClassName('qrcode-bulk');
-        console.log(qrcode);
-        html2canvas(document.querySelector(".qrcode-bulk")).then(canvas => {
+        let qrcodes = $('.qrcode-bulk > img').map(function() {
+            return $(this).attr('src');
+        }).get();
 
-            document.body.appendChild(canvas);
-            // canvas.toBlob(function(blob) {
-            //     saveAs(blob, id);
-            // });
+        let images = new Array();
+        for (let i = 0; i < qrcodes.length; i++) {
+            var img = new Image();
+            img.src = qrcodes[i];
+            images[i] = img;
+        }
 
-            printJS({
-                printable: canvas.toDataURL(),
-                type: 'image',
-                header: 'PrintJS Images Test', // Optional
-                showModal: true, // Optional
-                modalMessage: 'Printing Images...', // Optional
-                style: 'img { max-width: 400px;}' // Optional
-            })
-        });
+        console.log(images);
+
+        printJS({
+            printable: qrcodes,
+            type: 'image',
+            header: 'PrintJS Images Test', // Optional
+            showModal: true, // Optional
+            modalMessage: 'Printing Images...', // Optional
+            style: 'img { max-width: 400px;}' // Optional
+        })
     }
 </script>
